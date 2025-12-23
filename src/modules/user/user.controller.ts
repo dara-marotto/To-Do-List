@@ -15,8 +15,9 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return 'sim'
+  async showUsers() {
+    const users = await this.userService.showUsers();
+    return users;
   }
 
   @Get(':id')
