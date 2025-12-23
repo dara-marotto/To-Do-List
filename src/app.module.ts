@@ -7,12 +7,14 @@ import databaseConfig from "./config/database.config";
 import jwtConfig from "./config/jwt.config";
 import redisConfig from "./config/redis.config";
 import { Module } from "@nestjs/common";
+import { TypeOrmConfigModule } from "./database/typeorm.module";
 
 @Module({
     imports: [
         UserModule, 
         AuthModule, 
         TaskModule,
+        TypeOrmConfigModule,
         ConfigModule.forRoot({
             isGlobal: true,
             envFilePath: '.env',
