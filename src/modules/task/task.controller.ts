@@ -8,8 +8,8 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
+  async create(@Body() createTaskDto: CreateTaskDto) {
+    return await this.taskService.createTask(createTaskDto);
   }
 
   @Get()
@@ -28,7 +28,7 @@ export class TaskController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.taskService.remove(+id);
+  async delete(@Param('id') id: string) {
+    return this.taskService.deleteTask(id);
   }
 }
