@@ -18,16 +18,30 @@ export class TaskService {
     return await this.taskRepository.save(task);
   }
 
-  findAll() {
-    return `This action returns all task`;
+  async showTasks() {
+    const tasks = await this.taskRepository.find();
+    return tasks;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
+  async showOneTask(id: string) {
+    const task = await this.taskRepository.findOneBy({ id: id });
+
+    if(!task) throw new NotFoundException('task not found');
+
+    return task;
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  async updateTask(id: string, updateTaskDto: UpdateTaskDto) {
+    const task = await this.taskRepository.findOneBy({ id: id });
+
+    if(!task) throw new NotFoundException('task not found');
+
+    Object.assign(task, updateTaskDto);
+    this.taskRepository.save(task);
+    return {
+      message: 'Task successfully updated',
+      task: task
+    }
   }
 
   async deleteTask(id: string) {
