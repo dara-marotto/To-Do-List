@@ -1,11 +1,12 @@
 import { IsEmail, IsNotEmpty, Matches } from "class-validator";
+import { IsUniqueEmail } from "../validators/is-unique-email.validator";
 
 export class CreateUserDto {
     @IsNotEmpty()
     name: string;
 
     @IsEmail()
-    //validate if email is unique
+    @IsUniqueEmail({ message: 'This email already exist'})
     email: string;
 
     @IsNotEmpty()

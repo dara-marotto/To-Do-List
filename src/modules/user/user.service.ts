@@ -13,6 +13,13 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
+  async findEmail(email: string): Promise<boolean> {
+    const possibleUser = await this.userRepository.findOne({
+      where: { email },
+    });
+    return possibleUser !== null; 
+  }
+
   async createUser(createUserDto: CreateUserDto) {
     const user = new UserEntity;
     Object.assign(user, createUserDto);

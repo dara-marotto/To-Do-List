@@ -12,6 +12,7 @@ export class TaskService {
     @InjectRepository(TaskEntity)
     private readonly taskRepository: Repository<TaskEntity>
   ) {}
+
   async createTask(createTaskDto: CreateTaskDto) {
     const task = new TaskEntity();
     Object.assign(task, createTaskDto);
