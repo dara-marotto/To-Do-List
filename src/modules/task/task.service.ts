@@ -5,6 +5,7 @@ import { TaskEntity } from './entities/task.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NotFoundError } from 'rxjs';
+import { ShowTaskDto } from './dto/show-task.dto';
 
 @Injectable()
 export class TaskService {
@@ -16,12 +17,20 @@ export class TaskService {
   async createTask(createTaskDto: CreateTaskDto) {
     const task = new TaskEntity();
     Object.assign(task, createTaskDto);
-    return await this.taskRepository.save(task);
+    await this.taskRepository.save(task);
+
+    return {
+      message: 'Task successfully created',
+      task: new ShowTaskDto(task.id, task.title, task.description, task.colorTag, task.state)
+    }
   }
 
   async showTasks() {
     const tasks = await this.taskRepository.find();
-    return tasks;
+    return tasks.map(
+      (task) => new ShowTaskDto(
+        task.id, task.title, task.description, task.colorTag, task.state
+      ));
   }
 
   async showOneTask(id: string) {
@@ -29,7 +38,7 @@ export class TaskService {
 
     if(!task) throw new NotFoundException('task not found');
 
-    return task;
+    return new ShowTaskDto(task.id, task.title, task.description, task.colorTag, task.state);
   }
 
   async updateTask(id: string, updateTaskDto: UpdateTaskDto) {
@@ -41,7 +50,7 @@ export class TaskService {
     this.taskRepository.save(task);
     return {
       message: 'Task successfully updated',
-      task: task
+      task: new ShowTaskDto(task.id, task.title, task.description, task.colorTag, task.state)
     }
   }
 
