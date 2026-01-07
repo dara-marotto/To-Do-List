@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './user.entity';
@@ -12,6 +12,15 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
+
+    async checkExistingEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email: email });
+
+    if(!user) {
+      throw new UnauthorizedException('The email address or the password must be incorrect')
+    }
+    return user;
+  }
 
   async findEmail(email: string): Promise<boolean> {
     const possibleUser = await this.userRepository.findOne({
