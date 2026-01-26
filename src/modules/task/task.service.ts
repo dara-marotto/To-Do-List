@@ -14,9 +14,9 @@ export class TaskService {
     private readonly taskRepository: Repository<TaskEntity>
   ) {}
 
-  async createTask(createTaskDto: CreateTaskDto) {
+  async createTask(userId: string, taskData: CreateTaskDto) {
     const task = new TaskEntity();
-    Object.assign(task, createTaskDto);
+    Object.assign(task, taskData);
     await this.taskRepository.save(task);
 
     return {
