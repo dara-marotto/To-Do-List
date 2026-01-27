@@ -13,6 +13,14 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
+  async findUserById(userId: string) {
+    const user = await this.userRepository.findOneBy({ id: userId });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
     async checkExistingEmail(email: string) {
     const user = await this.userRepository.findOneBy({ email: email });
 
