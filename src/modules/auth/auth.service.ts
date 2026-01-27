@@ -2,7 +2,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { access } from 'fs';
 
 export interface UserPayload {
   sub: string;
@@ -18,7 +17,7 @@ export class AuthService {
 
   async login(email: string, passwordEntered: string) {
     const user = await this.userService.checkExistingEmail(email); 
-
+    
     const authenticatedUser = await bcrypt.compare(
       passwordEntered, user.password
     );
