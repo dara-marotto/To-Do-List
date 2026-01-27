@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { TaskEntity } from "../task/entities/task.entity";
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -15,6 +16,11 @@ export class UserEntity {
   @Exclude()
   @Column({ name: 'password', length: 255, nullable: false })
   password: string;
+
+  @OneToMany(() => TaskEntity, (taskEntity) => taskEntity.user, {
+    cascade: true
+  })
+  tasks: TaskEntity[];
 
   @CreateDateColumn({ name: 'created_at', select: false })
   createdAt: string;
