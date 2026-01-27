@@ -20,22 +20,27 @@ export class TaskController {
   }
 
   @Get()
-  findAll() {
-    return this.taskService.showTasks();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.taskService.showOneTask(id);
+  showUserTasks(@Req() req: RequestWithUser) {
+    const userId = req.user.sub
+    return this.taskService.showUserTasks(userId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.updateTask(id, updateTaskDto);
+  update(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string, 
+    @Body() updateTaskDto: UpdateTaskDto
+  ) {
+    const userId = req.user.sub;
+    return this.taskService.updateTask(userId, id, updateTaskDto);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return this.taskService.deleteTask(id);
+  async delete(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string
+  ) {
+    const userId = req.user.sub;
+    return this.taskService.deleteTask(userId, id);
   }
 }
