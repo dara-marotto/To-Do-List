@@ -7,7 +7,6 @@ export class CreateTaskDto {
     title: string;
 
     @IsString()
-    @MaxLength(25)
     description: string;
 
     @IsEnum(ColorTagEnum, { message: 'This color tag does not exist'})

@@ -30,7 +30,7 @@ export class TaskService {
 
     return {
       message: 'Task successfully created',
-      task: new ShowTaskDto(task.id, task.title, task.description, task.colorTag, task.state)
+      task: new ShowTaskDto(task.id, task.title, task.description, task.colorTag, task.state, task.active)
     }
   }
 
@@ -45,7 +45,7 @@ export class TaskService {
     });
     return tasks.map(
       (task) => new ShowTaskDto(
-        task.id, task.title, task.description, task.colorTag, task.state
+        task.id, task.title, task.description, task.colorTag, task.state, task.active
       ));
   }
 
@@ -66,7 +66,7 @@ export class TaskService {
     this.taskRepository.save(task);
     return {
       message: 'Task successfully updated',
-      task: new ShowTaskDto(task.id, task.title, task.description, task.colorTag, task.state)
+      task: new ShowTaskDto(task.id, task.title, task.description, task.colorTag, task.state, task.active)
     }
   }
 

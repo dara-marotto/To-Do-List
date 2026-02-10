@@ -7,6 +7,7 @@ export class ShowTaskDto {
         readonly title: string,
         readonly description: string,
         readonly colorTag: ColorTagEnum,
-        readonly state: StateTagEnum
+        readonly state: StateTagEnum,
+        readonly active: boolean
     ) {}
 }
