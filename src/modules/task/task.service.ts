@@ -1,17 +1,19 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskEntity } from './entities/task.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { NotFoundError } from 'rxjs';
 import { ShowTaskDto } from './dto/show-task.dto';
 import { UserService } from '../user/user.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class TaskService {
   constructor(
     private readonly userService: UserService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @InjectRepository(TaskEntity)
     private readonly taskRepository: Repository<TaskEntity>
   ) {}
@@ -35,6 +37,12 @@ export class TaskService {
   }
 
   async showUserTasks(userId: string) {
+
+    const cacheKey = 'user_tasks';
+    const tasksInCache = await this.cacheManager.get(cacheKey);
+
+    if(tasksInCache) return tasksInCache
+
     const tasks = await this.taskRepository.find({
       where: {
         user: { id: userId }
@@ -43,10 +51,14 @@ export class TaskService {
         user: true,
       },
     });
-    return tasks.map(
+    
+    const convertedTasks = tasks.map(
       (task) => new ShowTaskDto(
         task.id, task.title, task.description, task.colorTag, task.state, task.active
       ));
+
+    await this.cacheManager.set(cacheKey, convertedTasks);
+    return convertedTasks;
   }
 
   async updateTask(userId: string, id: string, updateTaskDto: UpdateTaskDto) {
@@ -89,4 +101,5 @@ export class TaskService {
       taskId: id
     }
   }
+
 }
