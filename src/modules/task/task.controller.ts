@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { AuthGuard, RequestWithUser } from '../auth/auth.guard';
+import { LoggingInterceptor } from 'src/common/pipes/interceptors/logging.interceptor';
 
+// @UseInterceptors(LoggingInterceptor)
 @UseGuards(AuthGuard)
 @Controller('task')
 export class TaskController {
