@@ -86,7 +86,7 @@ export class TaskService {
        task.id, task.title, task.description, task.colorTag, task.state, task.active
      ));
         
-    await this.cacheManager.set(this.CACHE_KEY, convertedTasks);
+    await this.cacheManager.set(cacheKey, convertedTasks);
     return convertedTasks;
   }
 
