@@ -5,7 +5,6 @@ import { TaskModule } from "./modules/task/task.module";
 import { ConfigModule } from "@nestjs/config";
 import databaseConfig from "./config/database.config";
 import jwtConfig from "./config/jwt.config";
-import redisConfig from "./config/redis.config";
 import { Module } from "@nestjs/common";
 import { TypeOrmConfigModule } from "./database/typeorm.module";
 import { CacheModule } from "@nestjs/cache-manager";
@@ -20,7 +19,7 @@ import * as redisStore from "cache-manager-redis-store"
         ConfigModule.forRoot({
             isGlobal: true,
             envFilePath: '.env',
-            load: [databaseConfig, jwtConfig, redisConfig]
+            load: [databaseConfig, jwtConfig]
         }),
         CacheModule.register({
             isGlobal: true,
