@@ -1,6 +1,6 @@
 import { IsBoolean, IsEnum, IsString, MaxLength } from "class-validator";
-import { ColorTagEnum } from "../enums/color-tag.enum";
-import { StateTagEnum } from "../enums/state-tag.enum";
+import { COLOR_TAG } from "../enums/color-tag.enum";
+import { STATE_TAG } from "../enums/state-tag.enum";
 
 export class CreateTaskDto {
     @IsString()
@@ -9,11 +9,11 @@ export class CreateTaskDto {
     @IsString()
     description: string;
 
-    @IsEnum(ColorTagEnum, { message: 'This color tag does not exist'})
-    colorTag: ColorTagEnum;
+    @IsEnum(COLOR_TAG, { message: 'This color tag does not exist'})
+    colorTag: COLOR_TAG;
 
-    @IsEnum(StateTagEnum, {message: 'This state tag does not exist'})
-    state: StateTagEnum;
+    @IsEnum(STATE_TAG, {message: 'This state tag does not exist'})
+    state: STATE_TAG;
 
     @IsBoolean()
     active: boolean;

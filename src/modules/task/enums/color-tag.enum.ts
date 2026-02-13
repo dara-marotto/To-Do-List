@@ -1,4 +1,4 @@
-export enum ColorTagEnum {
+export enum COLOR_TAG {
     RED = 'red',
     ORANGE = 'orange',
     YELLOW = 'yellow',

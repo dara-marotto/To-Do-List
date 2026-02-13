@@ -37,6 +37,7 @@ export class UserController {
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
+
   @UseGuards(AuthGuard)
   @Patch(':id')
   update(
@@ -45,6 +46,7 @@ export class UserController {
   ) {
     return this.userService.updateUser(id, updateUserDto);
   }
+  
   @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
