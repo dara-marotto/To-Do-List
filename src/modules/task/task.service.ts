@@ -96,6 +96,9 @@ export class TaskService {
 
     Object.assign(task, updateTaskDto);
     this.taskRepository.save(task);
+
+    await this.cacheManager.del(this.CACHE_KEY);
+
     return {
       message: 'Task successfully updated',
       task: new ShowTaskDto(task.id, task.title, task.description, task.colorTag, task.state, task.active)
@@ -107,6 +110,8 @@ export class TaskService {
     if(!task) throw new NotFoundException('task not found');
 
     await this.taskRepository.delete(task.id);
+
+    await this.cacheManager.del(this.CACHE_KEY);
 
     return {
       message: 'Task successfully deleted',

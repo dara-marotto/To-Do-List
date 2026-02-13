@@ -77,6 +77,9 @@ export class UserService {
 
     Object.assign(user, updateUserDto);
     this.userRepository.save(user);
+
+    await this.cacheManager.del(this.CACHE_KEY);
+
     return {
       message: 'User succesfully updated',
       user: new ShowUsersDTO(user.id, user.name, user.email),
@@ -88,6 +91,8 @@ export class UserService {
     const user = await this.userRepository.delete(id);
 
     if(!user) throw new NotFoundException('user not found');
+
+    await this.cacheManager.del(this.CACHE_KEY);
 
     return {
       message: 'User succesfully deleted',
