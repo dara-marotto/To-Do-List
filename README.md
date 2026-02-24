@@ -3,52 +3,44 @@
 ```mermaid
 flowchart TD
 
-A[Request Postman] --> B{Rota}
+A[Request Postman] --> B{Route}
 
-B -->|POST users| U1[Validacao DTO]
-B -->|PATCH users| U1
-B -->|DELETE users| U6[Controller Service]
+B -->|POST, PATCH /users| U1[Validate DTO]
+B -->|DELETE, GET /users| U6[Controller -> Service]
 
-U1 --> U2[Verifica email unico]
-U2 --> U3[Valida senha]
-U3 --> U4{Create}
-
-U4 -->|Sim| U5[Hash senha]
-U4 -->|Nao| U6
-
-U5 --> U6
-U6 --> U7[PostgreSQL]
-U7 --> U8[Limpa Redis]
+U1 --> U2[Validade unique email]
+U2 --> |Yes| U3[Validate password]
+U2 --> |No| Error
+U3 --> U4[Hash password]
+U4 --> U6
+U6 --> |GET| G2[Search in Cache]
+U6 --> |POST, PATCH, DELETE| U7[Save on DB]
+U7 --> U8[Clean Cache]
 U8 --> R1[Response]
 
-B -->|POST tasks| T1[Auth Guard]
-B -->|PATCH tasks| T1
-B -->|DELETE tasks| T1
+B -->|GET, POST, PATCH, DELETE /tasks| T1[Auth Guard]
 
-T1 --> T2{Token valido}
-T2 -->|Nao| E1[401]
-T2 -->|Sim| T3[Controller Service]
-T3 --> T4[PostgreSQL]
-T4 --> T5[Limpa Redis]
+T1 --> T2{Validate JWT Token}
+T2 -->|No| E1[Unauthorized]
+T2 -->|Yes| T3[Controller -> Service]
+T3 --> |GET| TG4[Search in Cache]
+T3 --> |POST,PATCH,DELETE|T4[Save on DB]
+T4 --> T5[Clean Cache]
 T5 --> R2[Response]
 
-B -->|GET users| G1[Controller]
-G1 --> G2[Busca Redis]
-G2 --> G3{Cache}
-G3 -->|Sim| G4[Retorna cache]
-G3 -->|Nao| G5[Busca PostgreSQL]
-G5 --> G6[Salva Redis]
-G6 --> G7[Retorna dados]
 
-B -->|GET tasks| TG1[Auth Guard]
-TG1 --> TG2{Token valido}
-TG2 -->|Nao| E2[401]
-TG2 -->|Sim| TG3[Controller]
-TG3 --> TG4[Busca Redis]
+G2 --> G3{Cache}
+G3 -->|Yes| G4[Return cache]
+G3 -->|No| G5[Search on DB]
+G5 --> G6[Save Cache]
+G6 --> G7[Return data]
+
+
+
 TG4 --> TG5{Cache}
-TG5 -->|Sim| TG6[Retorna cache]
-TG5 -->|Nao| TG7[Busca PostgreSQL]
-TG7 --> TG8[Salva Redis]
-TG8 --> TG9[Retorna dados]
+TG5 -->|Yes| TG6[Return cache]
+TG5 -->|No| TG7[Search on DB]
+TG7 --> TG8[Save Cache]
+TG8 --> TG9[Return data]
 ```
 
