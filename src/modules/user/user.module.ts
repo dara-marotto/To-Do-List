@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
+import { UserService } from './services/user.service';
+import { UserController } from './controllers/user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './user.entity';
+import { UserEntity } from './entities/user.entity';
 import { UniqueEmailValidator } from './validators/is-unique-email.validator';
-import { HashPasswordPipe } from 'src/common/pipes/hash-password.pipe';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
-  providers: [UserService, UniqueEmailValidator, HashPasswordPipe],
+  providers: [UserService, UniqueEmailValidator],
   exports: [UserService]
 })
 export class UserModule {}
