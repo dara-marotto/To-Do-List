@@ -1,5 +1,5 @@
-import { COLOR_TAG } from "../enums/color-tag.enum";
-import { STATE_TAG } from "../enums/state-tag.enum";
+import { COLOR_TAG } from "../enums";
+import { STATE_TAG } from "../enums";
 
 export interface TaskInterface {
   id: string;

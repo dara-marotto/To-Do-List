@@ -1,6 +1,6 @@
-import { IsBoolean, IsEnum, IsString, MaxLength } from "class-validator";
-import { COLOR_TAG } from "../enums/color-tag.enum";
-import { STATE_TAG } from "../enums/state-tag.enum";
+import { IsBoolean, IsEnum, IsString } from "class-validator";
+import { COLOR_TAG } from "../enums";
+import { STATE_TAG } from "../enums";
 
 export class CreateTaskDto {
   @IsString()

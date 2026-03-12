@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, Matches } from "class-validator";
-import { IsUniqueEmail } from "../validators/is-unique-email.validator";
+import { IsUniqueEmail } from "../validators";
 
 export class CreateUserDto {
     @IsNotEmpty()

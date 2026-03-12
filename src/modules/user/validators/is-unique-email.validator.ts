@@ -5,7 +5,7 @@ import {
   ValidatorConstraintInterface 
 } from "class-validator";
 import { Injectable } from "@nestjs/common";
-import { UserService } from "../services/user.service";
+import { UserService } from "../services";
 
 @Injectable()
 @ValidatorConstraint({ async: true })
