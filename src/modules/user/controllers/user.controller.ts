@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards, Put } from '@nestjs/common';
-import { UserService } from '../services/user.service';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import { AuthGuard } from '../../auth/guards/auth.guard';
-import { UserInterface } from '../interfaces/user.interface';
+import { UserService } from '../services';
+import { CreateUserDto } from '../dtos';
+import { UpdateUserDto } from '../dtos';
+import { AuthGuard } from '../../auth/guards';
+import { UserInterface } from '../interfaces';
 
 @Controller('user')
 export class UserController {
@@ -28,7 +28,7 @@ export class UserController {
   async update(
     @Param('id') id: string, 
     @Body() updateUserDto: UpdateUserDto
-  ): Promise<{ message: string, user: UserInterface}> {
+  ): Promise<{ message: string }> {
 
     return await this.userService.update(id, updateUserDto);
   }

@@ -1,12 +1,12 @@
 import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import { UserEntity } from '../entities/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
-import { UserInterface } from '../interfaces/user.interface';
 import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from '../dtos';
+import { UpdateUserDto } from '../dtos';
+import { UserEntity } from '../entities';
+import { UserInterface } from '../interfaces';
 
 @Injectable()
 export class UserService {
@@ -58,7 +58,7 @@ export class UserService {
     
     const user = new UserEntity;
     
-    dto.password = await bcrypt.hash(dto.password, 10);
+    dto.password = await bcrypt.hash(dto.password, Number(process.env.SALT_PASSWORD));
     
     Object.assign(user, dto);
     
@@ -95,7 +95,7 @@ export class UserService {
   async update(
     id: string, 
     dtoUpdate: UpdateUserDto
-  ): Promise<{ message: string, user: UserInterface }> {
+  ): Promise<{ message: string }> {
 
     const user = await this.userRepository.findOneBy({ id: id });
 
@@ -109,8 +109,7 @@ export class UserService {
     ]);
 
     return {
-      message: 'User succesfully updated',
-      user
+      message: 'User succesfully updated'
     }
   }
 

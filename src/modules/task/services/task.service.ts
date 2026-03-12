@@ -1,16 +1,16 @@
 import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { CreateTaskDto } from '../dto/create-task.dto';
-import { UpdateTaskDto } from '../dto/update-task.dto';
-import { TaskEntity } from '../entities/task.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserService } from '../../user/services/user.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { GetTasksFilterDto } from '../dto/get-tasks-filter.dto';
-import { COLOR_TAG as COLOR_TAG } from '../enums/color-tag.enum';
-import { STATE_TAG as STATE_TAG } from '../enums/state-tag.enum';
-import { TaskInterface } from '../interfaces/task.interface.ts';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { CreateTaskDto } from '../dto';
+import { UpdateTaskDto } from '../dto';
+import { TaskEntity } from '../entities';
+import { UserService } from '../../user/services';
+import { GetTasksFilterDto } from '../dto';
+import { COLOR_TAG as COLOR_TAG } from '../enums';
+import { STATE_TAG as STATE_TAG } from '../enums';
+import { TaskInterface } from '../interfaces';
 
 @Injectable()
 export class TaskService {
@@ -104,7 +104,7 @@ export class TaskService {
     userId: string, 
     id: string, 
     dtoUpdate: UpdateTaskDto
-  ): Promise<{ message: string, task: TaskInterface}> {
+  ): Promise<{ message: string }> {
 
     const task = await this.getOneTask(userId, id);
     if(!task) throw new NotFoundException('task not found');
@@ -115,8 +115,7 @@ export class TaskService {
     ]);
 
     return {
-      message: 'Task successfully updated',
-      task
+      message: 'Task successfully updated'
     }
   }
 

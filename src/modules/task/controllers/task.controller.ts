@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors, Query, Put } from '@nestjs/common';
-import { TaskService } from '../services/task.service';
-import { CreateTaskDto } from '../dto/create-task.dto';
-import { UpdateTaskDto } from '../dto/update-task.dto';
-import { AuthGuard, RequestWithUser } from '../../auth/guards/auth.guard';
-import { GetTasksFilterDto } from '../dto/get-tasks-filter.dto';
+import { TaskService } from '../services';
+import { CreateTaskDto } from '../dto';
+import { UpdateTaskDto } from '../dto';
+import { AuthGuard, RequestWithUser } from '../../auth/guards';
+import { GetTasksFilterDto } from '../dto';
+import { TaskInterface } from '../interfaces';
 
 @UseGuards(AuthGuard)
 @Controller('task')
@@ -14,7 +15,8 @@ export class TaskController {
   async create(
     @Req() req: RequestWithUser,
     @Body() taskData: CreateTaskDto
-  ) {
+  ): Promise<{ message: string, task: TaskInterface}> {
+
     const userId = req.user.sub;
     return await this.taskService.create(userId, taskData);
   }
@@ -23,7 +25,8 @@ export class TaskController {
   async getUserTasks(
     @Query() filterDto: GetTasksFilterDto,
     @Req() req: RequestWithUser
-  ) {
+  ): Promise<TaskInterface[]> {
+
     const userId = req.user.sub
     return await this.taskService.get(userId, filterDto);
   }
@@ -33,7 +36,8 @@ export class TaskController {
     @Req() req: RequestWithUser,
     @Param('id') id: string, 
     @Body() updateTaskDto: UpdateTaskDto
-  ) {
+  ): Promise<{ message: string }> {
+
     const userId = req.user.sub;
     return await this.taskService.update(userId, id, updateTaskDto);
   }
@@ -42,7 +46,8 @@ export class TaskController {
   async delete(
     @Req() req: RequestWithUser,
     @Param('id') id: string
-  ) {
+  ): Promise<{ message: string, taskId: string}> {
+
     const userId = req.user.sub;
     return await this.taskService.delete(userId, id);
   }

@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { UserService } from '../../user/services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UserEntity } from 'src/modules/user/entities/user.entity';
+import { UserService } from '../../user/services';
+import { UserEntity } from 'src/modules/user/entities';
 
 export interface UserPayload {
   sub: string;
@@ -38,7 +38,10 @@ export class AuthService {
     }
   }
 
-  private async validateUser(email, password): Promise<UserEntity | false> {
+  private async validateUser(
+    email: string, 
+    password: string
+  ): Promise<UserEntity | false> {
 
     const user = await this.userService.checkExistingEmail(email); 
 
