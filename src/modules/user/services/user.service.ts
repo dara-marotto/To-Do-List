@@ -94,17 +94,17 @@ export class UserService {
 
   async update(
     id: string, 
-    dtoUpdate: UpdateUserDto
+    dto: UpdateUserDto
   ): Promise<{ message: string }> {
 
     const user = await this.userRepository.findOneBy({ id: id });
 
     if(!user) throw new NotFoundException('user not found');
 
-    if(dtoUpdate.password) dtoUpdate.password = await bcrypt.hash(dtoUpdate.password, 10);
+    if(dto.password) dto.password = await bcrypt.hash(dto.password, Number(process.env.SALT_PASSWORD));
     
     Promise.all([
-      this.userRepository.update(user.id, dtoUpdate),
+      this.userRepository.update(user.id, dto),
       this.cacheManager.del(this.CACHE_KEY),
     ]);
 
