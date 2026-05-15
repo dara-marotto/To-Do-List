@@ -1,32 +1,32 @@
-import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { TaskEntity } from "../../task/entities";
 
 
 @Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'name', length: 100, nullable: false })
-  name: string;
+  name!: string;
 
   @Column({ name: 'email', length: 70, nullable: false })
-  email: string;
+  email!: string;
 
   @Column({ name: 'password', length: 255, nullable: false })
-  password: string;
+  password!: string;
 
   @OneToMany(() => TaskEntity, (taskEntity) => taskEntity.user, {
     cascade: true, 
   })
-  tasks: TaskEntity[];
+  tasks!: TaskEntity[];
 
   @CreateDateColumn({ name: 'created_at', select: false })
-  createdAt: string;
+  createdAt!: string;
 
   @UpdateDateColumn({ name: 'updated_at', select: false })
-  updatedAt: string;
+  updatedAt!: string;
 
   @DeleteDateColumn({ name: 'deleted_at', select: false })
-  deletedAt: string;
+  deletedAt!: string;
 }

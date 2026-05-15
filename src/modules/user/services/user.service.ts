@@ -68,7 +68,11 @@ export class UserService {
     ]);
     return {
       message: 'user successfully created',
-      user
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      }
     }
   }
 
@@ -84,7 +88,6 @@ export class UserService {
         id: true,
         name: true,
         email: true,
-        password: true
       }
     }); 
 
