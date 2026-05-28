@@ -2,11 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseI
 import { TaskService } from '../services';
 import { CreateTaskDto } from '../dto';
 import { UpdateTaskDto } from '../dto';
-import { AuthGuard, RequestWithUser } from '../../auth/guards';
+import { AuthGuard } from '../../auth/guards';
+import { RequestWithUser } from '../../auth/interfaces';
 import { GetTasksFilterDto } from '../dto';
 import { TaskInterface } from '../interfaces';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}

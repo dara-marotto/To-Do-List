@@ -4,12 +4,17 @@ import { CreateUserDto } from '../dtos';
 import { UpdateUserDto } from '../dtos';
 import { AuthGuard } from '../../auth/guards';
 import { UserInterface } from '../interfaces';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService
+  ) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiResponse({ status: 201, description: 'The user has been successfully created.' })
   async create(
     @Body() data: CreateUserDto
   ): Promise<{ message: string, user: UserInterface}> {
