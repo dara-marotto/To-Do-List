@@ -13,6 +13,7 @@ async function bootstrap() {
     .setTitle('To-Do List API')
     .addBearerAuth()
     .setDescription('API for managing to-do lists and tasks')
+    .addServer('http://localhost:' + process.env.API_PORT)
     .setVersion('1.0')
     .build();
 
