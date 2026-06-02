@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { COLOR_TAG } from "../enums";
 import { STATE_TAG } from "../enums";
-import { UserEntity } from "src/modules/user/entities";
+import { UserEntity } from "../../user/entities";
 
 @Entity({ name: 'task' })
 export class TaskEntity {
@@ -18,10 +18,14 @@ export class TaskEntity {
   @Column()
   description: string;
 
-  @Column({ name: 'color_tag'})
+  @Column({ 
+    name: 'color_tag',
+  })
   colorTag: COLOR_TAG;
 
-  @Column()
+  @Column({
+    name: 'state_tag',
+  })
   state: STATE_TAG;
 
   @Column()

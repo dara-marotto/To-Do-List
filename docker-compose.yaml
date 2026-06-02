@@ -2,8 +2,9 @@ services:
   api:
     build: .
     container_name: todo-list-api
+    user: "${UID}:${GID}"
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       - postgres
       - redis
@@ -21,7 +22,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -29,13 +30,13 @@ services:
     image: redis:7
     container_name: todo-list-redis
     ports:
-      - "6380:6380"
+      - "6379:6379"
 
   redis-insight:
     image: redis/redisinsight:latest
     container_name: redis-insight
     ports:
-      - "8001:8001" 
+      - "8000:8001" 
     depends_on:
       - redis
 
