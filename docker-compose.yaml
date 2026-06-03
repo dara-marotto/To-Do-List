@@ -4,7 +4,7 @@ services:
     container_name: todo-list-api
     user: "${UID}:${GID}"
     ports:
-      - "3001:3000"
+      - "${API_PORT}:3000"
     depends_on:
       - postgres
       - redis
@@ -30,13 +30,13 @@ services:
     image: redis:7
     container_name: todo-list-redis
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:6379"
 
   redis-insight:
     image: redis/redisinsight:latest
     container_name: redis-insight
     ports:
-      - "8000:8001" 
+      - "${REDIS_INSIGHT_PORT}:8001" 
     depends_on:
       - redis
 
