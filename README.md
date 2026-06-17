@@ -43,8 +43,11 @@ cd To-Do-List
 ```
 ### 3. Run the project
 ```bash
-docker compose up
+make start
 ```
+### 4. To test the endpoints you can: 
+- Access [The swagger UI](http://localhost:3000/api)
+- Download the JSON file by accessing this [URL](http://localhost:3000/api-json) and import in Postman.
 
 ## 🧪 API Testing
 
