@@ -45,13 +45,10 @@ cd To-Do-List
 ```bash
 make start
 ```
-### 4. To test the endpoints you can: 
-- Access [The swagger UI](http://localhost:3000/api)
-- Download the JSON file by accessing this [URL](http://localhost:3000/api-json) and import in Postman.
 
 ## 🧪 API Testing
 
-You can test all endpoints using my [Postman collection](https://dara-m-8555036.postman.co/workspace/Dara's-Workspace~10043cbe-dfd9-4c36-80bb-facc0a8a6b35/collection/48146023-8f1e3055-e31b-4e5e-9f76-40928189acd5?action=share&creator=48146023).
+- Access [The swagger UI](http://localhost:3000/api) or download the JSON file by accessing this [URL](http://localhost:3000/api-json) and import in Postman.
 
 ## Diagrama de Fluxo da API
 
